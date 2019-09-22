@@ -1,0 +1,15 @@
+  - name: insert server id for instance1
+    become: yes
+    lineinfile:
+      destfile: /etc/mysql/my.cnf
+      line: '{{ item }}'
+      insertbefore: EOF
+    with_items:
+    - 'server_id=201801'
+    - 'group_replication_local_address   = 172.31.9.196:13306'
+    - 'group_replication_group_seeds     = 172.31.6.124:13306,172.31.7.58:13306'
+    when: "'172.31.9.196' in inventory_hostname"
+    #notify_now: restart mysql
+    #    handlers:
+    #    - include: handlers/main.yml
+
